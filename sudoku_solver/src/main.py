@@ -31,7 +31,7 @@ from sudoku_solver_builder import SudokuSolverBuilder
 m = SudokuBoard.str_to_matrix({0})
 """
 #setups = (setup.format("","block_block1_str"),setup.format("","block_block2_str"),setup.format("","block_block3_str"),setup.format("","block_block4_str"),)
-setups = (setup.format("medusa3drule6"),)
+setups = (setup.format("jellyfish"),)
 stmt = """\
 solver = SudokuSolverBuilder(SudokuBoard(m),(AnsweredSolver(),
                                              SingletonSolver(),HiddenSolver(Solver.SINGLE),
@@ -48,7 +48,7 @@ solver = SudokuSolverBuilder(SudokuBoard(m),(AnsweredSolver(),
                                              XCycleSolver(),
                                              XYChainSolver(),
                                              Medusa3DSolver(),
-                                             #JellyFishSolver(),
+                                             JellyFishSolver(),
                                              )
                              )
 #print solver.board.as_matrix()
