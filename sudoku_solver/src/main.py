@@ -6,7 +6,6 @@ Created on Jan 5, 2013
 
 import numpy
 import timeit
-
 print "=== SudokuSolver ==="
 numpy.set_printoptions(linewidth=20)
 setup = """\
@@ -26,12 +25,13 @@ from xcycle_solver import XCycleSolver
 from xychain_solver import XYChainSolver
 from medusa3d_solver import Medusa3DSolver
 from jellyfish_solver import JellyFishSolver
+from uniquerectangle_solver import UniqueRectangleSolver
 from sudoku_board import SudokuBoard, Cell, StrongChain, AlternatingChain,Node, Chain
 from sudoku_solver_builder import SudokuSolverBuilder
 m = SudokuBoard.str_to_matrix({0})
 """
 #setups = (setup.format("","block_block1_str"),setup.format("","block_block2_str"),setup.format("","block_block3_str"),setup.format("","block_block4_str"),)
-setups = (setup.format("jellyfish2"),)
+setups = (setup.format("urectrule4b"),)
 stmt = """\
 solver = SudokuSolverBuilder(SudokuBoard(m),(AnsweredSolver(),
                                              SingletonSolver(),HiddenSolver(Solver.SINGLE),
@@ -47,8 +47,9 @@ solver = SudokuSolverBuilder(SudokuBoard(m),(AnsweredSolver(),
                                              SwordFishSolver(),
                                              XCycleSolver(),
                                              XYChainSolver(),
-                                             Medusa3DSolver(),
+                                             #Medusa3DSolver(),
                                              JellyFishSolver(),
+                                             UniqueRectangleSolver(),
                                              )
                              )
 #print solver.board.as_matrix()

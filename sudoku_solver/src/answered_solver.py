@@ -22,7 +22,7 @@ class AnsweredSolver(Solver):
     def find(self, board, do_all = False):
         solved_sets = []
         for cell in [cell for cell in board.as_list() if cell not in self.answered_cells and cell.answer]:
-            solved_cells = [check_cell for check_cell in board.get_row(cell.i).tolist()+board.get_col(cell.j).tolist()+board.get_box(cell.k).tolist() if not check_cell.answer and check_cell.check_remove(set([cell.answer]))]
+            solved_cells = [check_cell for check_cell in board.get_row(cell.i)+board.get_col(cell.j)+board.get_box(cell.k) if not check_cell.answer and check_cell.check_remove(set([cell.answer]))]
             if solved_cells:
                 solved_sets += [SolvedSet(AnsweredSolver(), [cell], set([cell.answer]), solved_cells)]
                 if not do_all:

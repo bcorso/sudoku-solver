@@ -4,11 +4,11 @@ Created on Jan 6, 2013
 @author: Brad
 '''
 from collections import Counter
-from solver import locations, count, strong_links, weak_links, \
-    visible_intersection
+from solver import strong_links, weak_links, visible_intersection
 import copy
 import math
 import numpy
+
                         
 class Chain(object):
     def __init__(self, board, cell, root_state = 1, level = None):
@@ -285,16 +285,16 @@ class SudokuBoard:
         
     def get_row(self,i):
         '''returns row i of the sudoku matrix as a 1xN matrix'''
-        return numpy.array(self.Cells[i,:])
+        return (numpy.array(self.Cells[i,:]).tolist(), [])[i == None]
     
     def get_col(self,j):
         '''returns column j of the sudoku matrix as a 1xN matrix'''
-        return numpy.array(self.Cells[:,j])
+        return (numpy.array(self.Cells[:,j]).tolist(), [])[j == None]
     
     def get_box(self,k):
         '''returns box that contains element i,j of the sudoku matrix as a nxn matrix'''
         i, j = k//self.n*self.n, k%self.n*self.n
-        return numpy.array(self.Cells[i:i+self.n, j:j+self.n].reshape(self.N))
+        return (numpy.array(self.Cells[i:i+self.n, j:j+self.n].reshape(self.N)).tolist(), [])[k == None]
     
     def remove_from_row(self, i, candidates, exceptions = []):
         return [cell for cell in self.get_row(i) if cell not in exceptions and cell.remove(candidates)]

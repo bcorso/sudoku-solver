@@ -56,12 +56,15 @@ def has_size(cell_list, min_, max_):
     return [cell for cell in cell_list if not cell.answer and (len(cell.c) >= min_, True)[min_ == None] and (len(cell.c) <= max_, True)[max_ == None]]
 
 def has_count(cell_list, min_, max_):
-    return {candidate:cells for candidate,cells in count(cell_list).items() if (len(cells) >= min_, True)[min_ == None] and (len(cells) <= max_, True)[max_ == None]}
+    return {candidate:cells for candidate,cells in group_by_candidate(cell_list).items() if (len(cells) >= min_, True)[min_ == None] and (len(cells) <= max_, True)[max_ == None]}
 
-def count(cell_list):
+def group_by_candidate(cell_list):
     if cell_list:
         return {x:[cell for cell in cell_list if x in cell.c] for x in cell_union(cell_list)}
     return {}
+
+def candidate_count(cell_list, x):
+    return sum([1 for cell in cell_list if x in cell.c])
 
 def locations(pivot, cell_list, occurance, value):
         cells = has_count(cell_list,occurance, occurance).get(value,[])
@@ -71,23 +74,23 @@ def locations(pivot, cell_list, occurance, value):
         #return {value:cells[:cells.index(pivot)]+cells[cells.index(pivot)+1:] for value,cells in has_count(cell_list,occurance, occurance).items() if pivot in cells}
 
 def strong_links(board,cell,occurance,value):
-    locations_row = locations(cell,board.get_row(cell.i).tolist(),occurance, value)
-    locations_col = locations(cell,board.get_col(cell.j).tolist(),occurance, value)
-    locations_box = locations(cell,board.get_box(cell.k).tolist(),occurance, value)
+    locations_row = locations(cell,board.get_row(cell.i),occurance, value)
+    locations_col = locations(cell,board.get_col(cell.j),occurance, value)
+    locations_box = locations(cell,board.get_box(cell.k),occurance, value)
     return list(set(locations_row+locations_col+locations_box))
     #return {value:list(set(locations_row.get(value,[])+locations_col.get(value,[])+locations_box.get(value,[]))) for value in set(locations_row.keys()+locations_col.keys()+locations_box.keys())}
 
 def weak_links(board,cell,value):
-    return [weakcell for weakcell in board.get_row(cell.i).tolist()+board.get_col(cell.j).tolist()+board.get_box(cell.k).tolist() if value in weakcell.c and cell != weakcell]
+    return [weakcell for weakcell in board.get_row(cell.i)+board.get_col(cell.j)+board.get_box(cell.k) if value in weakcell.c and cell != weakcell]
 
 
 def visible_intersection(board, cell_list):
     visible = set()
     for i,cell in enumerate(cell_list):
         if i == 0:
-            visible = set(board.get_row(cell.i).tolist() + board.get_col(cell.j).tolist() + board.get_box(cell.k).tolist())
+            visible = set(board.get_row(cell.i) + board.get_col(cell.j) + board.get_box(cell.k))
         else:
-            visible &= set(board.get_row(cell.i).tolist() + board.get_col(cell.j).tolist() + board.get_box(cell.k).tolist())
+            visible &= set(board.get_row(cell.i) + board.get_col(cell.j) + board.get_box(cell.k))
     for cell in cell_list:
         visible.discard(cell)
     return visible
