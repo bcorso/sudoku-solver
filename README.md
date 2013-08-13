@@ -17,4 +17,4 @@ HELP and SUPPORT
 ----------------
 If you have a question, find a bug, or have any issues, you can use:
 
-    https://github.com/bcorso/conference-manager/issues
+    https://github.com/bcorso/sudoku-solver/issues
